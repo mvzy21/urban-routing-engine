@@ -1,0 +1,8 @@
+bin/
+obj/
+.vs/
+.vscode/
+*.user
+*.suo
+# large dataset - download from Kaggle (see README)
+data/kaggle/newyork.graphml

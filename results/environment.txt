@@ -1,0 +1,1 @@
+.NET 9.0.20, Microsoft Windows 10.0.26200, 12 logical CPUs, full run, 2026-09-30 17:44; data: New York, USA (54,128 junctions, 90,153 roads, 141,951 directed edges)

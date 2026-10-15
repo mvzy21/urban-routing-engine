@@ -1,0 +1,73 @@
+Environment: .NET 9.0.20, Microsoft Windows 10.0.26200, 12 logical CPUs, full run, 2026-09-30 17:44; data: New York, USA (54,128 junctions, 90,153 roads, 141,951 directed edges)
+
+1. Data structure for the graph: adjacency list vs adjacency matrix (real streets)
+----------------------------------------------------------------------------------
+      V        E   list MB  matrix MB  list scan ms  matrix scan ms  list lookup ns  matrix lookup ns
+    250      465      0.10       0.48         0.031           0.064            39.9               2.1
+    500      957      0.20       1.91         0.025           0.258            37.6               4.0
+   1000     1894      0.40       7.63         0.052           1.051            41.0              13.3
+   2000     3883      0.79      30.52         0.129           4.111            40.9              15.4
+   4000     8170      1.61     122.07         0.349          16.565            48.8              16.9
+
+2a. Dijkstra's priority queue: binary heap vs array scan, real streets (sparse)
+-------------------------------------------------------------------------------
+      V        E    heap ms   array ms  junctions settled
+   1000     1894      0.077      0.925                557
+   2000     3883      0.152      2.782                982
+   5000    10304      0.588     12.118               2774
+  10000    22032      1.219     44.172               4420
+  20000    47129      3.943    199.506               9745
+  54128   141951     16.592          -              26333
+
+2b. The same comparison on a DENSE network (each real junction linked to its nearest 25%)
+-----------------------------------------------------------------------------------------
+     V         E    heap ms   array ms
+   250     18124      0.240      0.244
+   500     72906      1.054      1.023
+  1000    313736      7.949      7.993
+  2000   1284162     30.980     31.355
+
+3. Brute force (every route) vs greedy Dijkstra, walking, real neighbourhoods of Times Square
+---------------------------------------------------------------------------------------------
+    V  routes tried   brute ms  Dijkstra ms
+   10             4       0.01        0.001
+   15            10       0.02        0.002
+   20           108       0.08        0.002
+   25           477       0.69        0.003
+   30         1,228       2.37        0.004
+   35        12,993      14.63        0.004
+   40       115,760     275.71        0.005
+   45       931,924    2654.98        0.007
+   50     8,067,521   25253.56        0.006
+
+4. Reachability: bounded Dijkstra from Times Square on all of New York (54,128 junctions)
+-----------------------------------------------------------------------------------------
+ budget min   reached        ms   (unbounded search over all junctions: 35.97 ms)
+        0.5         7     0.001
+          1        32     0.005
+          2       186     0.028
+          4       834     0.304
+          8      2956     1.209
+         16     16230    10.355
+         32     47958    33.611
+
+5. Connectivity check: BFS (queue) vs DFS (stack)
+-------------------------------------------------
+      V         E    BFS ms    DFS ms  BFS peak queue  DFS peak stack
+   2000      3883      0.48      0.47             333            1302
+   5000     10304      1.45      2.27             700            2939
+  10000     22032      3.51      5.37             896            6852
+  20000     47129      8.42     10.63            1141           12067
+  54128    141951     47.71     39.45            1187           40939
+
+6. Critical junctions and roads: remove each one, BFS again (O((V + E)^2))
+--------------------------------------------------------------------------
+      V         E          ms  critical junctions  critical roads
+    250       465        48.5                  12              13
+    500       957       142.1                  15              18
+   1000      1894       570.0                  71              76
+   2000      3883      2305.5                 155             173
+   4000      8170      9351.5                 250             273
+   8000     17231     44264.7                 418             461
+
+Done. CSV files written to results/

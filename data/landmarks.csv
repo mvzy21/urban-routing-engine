@@ -1,0 +1,13 @@
+name,lat,lon
+# Well-known Manhattan places, coordinates approximate (public maps). Only used to pick demo start/end junctions:
+# the engine routes from the road junction nearest to each point.
+Battery Park,40.7033,-74.0170
+Wall Street,40.7074,-74.0113
+Union Square,40.7359,-73.9911
+Bellevue Hospital,40.7392,-73.9760
+Empire State Building,40.7484,-73.9857
+Times Square,40.7580,-73.9855
+Columbus Circle,40.7681,-73.9819
+Mount Sinai Hospital,40.7903,-73.9525
+Harlem 125th Street,40.8081,-73.9450
+Inwood,40.8677,-73.9212

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480" font-family="Segoe UI, Arial, sans-serif">
+<rect width="800" height="480" fill="#fcfcfb"/>
+<text x="84" y="30" font-size="19" font-weight="600" fill="#0b0b0b">Finding critical junctions and roads</text>
+<line x1="84" y1="48" x2="102" y2="48" stroke="#2a78d6" stroke-width="3"/><text x="108" y="52" font-size="13" fill="#52514e">Remove each + BFS</text>
+<line x1="84" y1="368.2" x2="650" y2="368.2" stroke="#e4e3df"/><text x="76" y="372.2" font-size="12" fill="#52514e" text-anchor="end">100</text>
+<line x1="84" y1="260.8" x2="650" y2="260.8" stroke="#e4e3df"/><text x="76" y="264.8" font-size="12" fill="#52514e" text-anchor="end">1k</text>
+<line x1="84" y1="153.4" x2="650" y2="153.4" stroke="#e4e3df"/><text x="76" y="157.4" font-size="12" fill="#52514e" text-anchor="end">10k</text>
+<line x1="94.7" y1="416" x2="94.7" y2="421" stroke="#52514e"/><text x="94.7" y="436" font-size="12" fill="#52514e" text-anchor="middle">200</text>
+<line x1="222.3" y1="416" x2="222.3" y2="421" stroke="#52514e"/><text x="222.3" y="436" font-size="12" fill="#52514e" text-anchor="middle">500</text>
+<line x1="318.8" y1="416" x2="318.8" y2="421" stroke="#52514e"/><text x="318.8" y="436" font-size="12" fill="#52514e" text-anchor="middle">1k</text>
+<line x1="415.2" y1="416" x2="415.2" y2="421" stroke="#52514e"/><text x="415.2" y="436" font-size="12" fill="#52514e" text-anchor="middle">2k</text>
+<line x1="542.8" y1="416" x2="542.8" y2="421" stroke="#52514e"/><text x="542.8" y="436" font-size="12" fill="#52514e" text-anchor="middle">5k</text>
+<line x1="639.3" y1="416" x2="639.3" y2="421" stroke="#52514e"/><text x="639.3" y="436" font-size="12" fill="#52514e" text-anchor="middle">10k</text>
+<line x1="84" y1="416" x2="650" y2="416" stroke="#52514e"/>
+<text x="367" y="462" font-size="13" fill="#52514e" text-anchor="middle">Junctions (V) (log scale)</text>
+<text transform="translate(22 243) rotate(-90)" font-size="13" fill="#52514e" text-anchor="middle">Time (ms) (log scale)</text>
+<polyline fill="none" stroke="#2a78d6" stroke-width="2" points="125.8,402 222.3,351.8 318.8,287 415.2,221.8 511.7,156.5 608.2,84"/>
+<circle cx="125.8" cy="402" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="222.3" cy="351.8" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="318.8" cy="287" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="415.2" cy="221.8" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="511.7" cy="156.5" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<circle cx="608.2" cy="84" r="4" fill="#2a78d6" stroke="#fcfcfb" stroke-width="2"/>
+<text x="618.2" y="88" font-size="13" fill="#0b0b0b">Remove each + BFS</text>
+</svg>

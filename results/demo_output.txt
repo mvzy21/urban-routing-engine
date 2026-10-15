@@ -1,0 +1,83 @@
+
+==============================================================================
+ 1. DATASET + NETWORK REPRESENTATION  (Manhattan, New York, USA, Kaggle / OpenStreetMap)
+==============================================================================
+   Read 4,426 locations and 9,626 road segments from manhatten.graphml
+   Cleaning: 9 self-loops and 0 non-drivable segments removed; 0 zero distances fixed;
+   speed limits: 3,485 from tags, 6,128 defaulted to 25 mph, 4 impossible values rejected
+   1,697 two-way streets merged -> 7,920 roads = 9,617 directed edges; 6,223 roads are one-way
+   Density E/(V(V-1)) = 0.049 % -> very sparse, so an adjacency list
+   Example location: id 1788, x = 2.74 km, y = 6.23 km, name "Times Square"
+
+==============================================================================
+ 2. SHORTEST PATH  (Battery Park -> Harlem 125th Street)
+==============================================================================
+   Shortest DISTANCE (Dijkstra + heap):
+      Battery Place -> West Street -> Spring Street -> Greenwich Street -> Bank Street -> Hudson Street -> Abingdon Square -> 8th Avenue -> Columbus Circle -> ... (15 streets)
+      13.93 km, 19.7 min, locations explored: 3,459
+   Shortest TRAVEL TIME (Dijkstra + heap):
+      Battery Place -> West Street -> 11th Avenue -> 12th Avenue -> Henry Hudson Parkway -> (unnamed) -> West 96th Street -> West End Avenue -> West 98th Street -> ... (19 streets)
+      15.08 km, 16.7 min, locations explored: 3,403
+   Shortest TRAVEL TIME (Dijkstra + array scan):
+      Battery Place -> West Street -> 11th Avenue -> 12th Avenue -> Henry Hudson Parkway -> (unnamed) -> West 96th Street -> West End Avenue -> West 98th Street -> ... (19 streets)
+      15.08 km, 16.7 min, locations explored: 3,403
+   Brute force vs Dijkstra, walking, 35 locations around Times Square: brute force tried 12,993 routes -> 0.901 km; Dijkstra settled 35 locations -> 0.901 km
+
+==============================================================================
+ 3. CONSTRAINED ROUTING  (blocked roads and locations)
+==============================================================================
+   (a) Columbus Circle -> Union Square, nothing blocked:
+      Columbus Circle -> Broadway -> West 48th Street -> 7th Avenue -> West 32nd Street -> Broadway -> West 26th Street -> 5th Avenue -> Broadway -> ... (10 streets)
+      4.19 km, 6.2 min, locations explored: 1,551
+   (b) same trip, ALL OF BROADWAY BLOCKED for a parade (340 roads):
+      Columbus Circle -> Central Park South -> 7th Avenue -> West 50th Street -> 5th Avenue -> East 16th Street -> Union Square West
+      4.68 km, 7.0 min, locations explored: 1,687
+   (c) same trip, accident blocks the location West 37th Street & 7th Avenue (on the normal route):
+      Columbus Circle -> Broadway -> West 48th Street -> 7th Avenue -> West 42nd Street -> Broadway -> West 40th Street -> 5th Avenue -> Broadway -> ... (10 streets)
+      4.30 km, 6.4 min, locations explored: 1,575
+
+==============================================================================
+ 4. REACHABILITY  (from Bellevue Hospital, by travel time and by distance)
+==============================================================================
+   within 1 min:      8 locations (furthest: 1st Avenue & East 29th Street, 1.0 min)
+   within 2 min:     67 locations (furthest: Lexington Avenue & East 22nd Street, 2.0 min)
+   within 4 min:    523 locations (furthest: East 49th Street & 3rd Avenue, 4.0 min)
+   within 6 min:  1,508 locations (furthest: Hester Street & Orchard Street, 6.0 min)
+   within 0.5 km:      3 locations (furthest: 1st Avenue & East 26th Street, 0.41 km)
+   within 1 km:     22 locations (furthest: 2nd Avenue & East 22nd Street, 0.97 km)
+   within 2 km:    272 locations (furthest: East 17th Street & Union Square West, 2.00 km)
+   BFS "within 15 roads" gives 263 locations, but 9 of them are more than 4 min away -> counting roads is the wrong measure for a time budget.
+
+==============================================================================
+ 5. CONNECTIVITY
+==============================================================================
+   All locations connected (direction ignored): True
+   Strongly connected (obeying one-way streets): False
+   BFS visited 4,426 (largest queue 192); DFS visited 4,426 (largest stack 2,874)
+   With Lenox Terrace Place blocked: connected = False, pieces = 2
+
+==============================================================================
+ 6. BOTTLENECKS  (critical locations and roads: remove each one, BFS again)
+==============================================================================
+   99 critical locations and 103 critical roads. Top 5 of each:
+      location Lenox Terrace Place & West 135th Street            cuts off 3 location(s)
+      location Williamsburg Bridge & Delancey Street              cuts off 2 location(s)
+      location 2nd Avenue & East 113th Street                     cuts off 2 location(s)
+      location Dyckman Street                                     cuts off 2 location(s)
+      location Tudor City Place & East 41st Street                cuts off 2 location(s)
+      road Lenox Terrace Place                      cuts off 3 location(s)
+      road East 122nd Street                        cuts off 1 location(s)
+      road East 57th Street                         cuts off 1 location(s)
+      road Pinehurst Avenue                         cuts off 1 location(s)
+      road West 205th Street                        cuts off 1 location(s)
+   What-if: block Lenox Terrace Place -> Times Square to West 134th Street:
+      NO ROUTE (locations explored: 4,378)
+
+==============================================================================
+ 7. EDGE CASES
+==============================================================================
+   Start = destination: found=True, 1 location, cost 0
+   Invalid location 999999 -> rejected: Location 999999 does not exist
+   Negative budget -> rejected
+   Negative road distance -> rejected: Road 0-1: distance must be > 0.
+
